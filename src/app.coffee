@@ -1,3 +1,8 @@
+createSigCapture = ->
+  sigCapture = new SignatureCapture 'signature'
+
+document.addEventListener 'load', createSigCapture
+
 ###
 var sigCapture = null;
 

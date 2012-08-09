@@ -1,17 +1,17 @@
 class SignatureCapture
   constructor: (canvasID, options) ->
     @canvas = document.getElementById canvasID
-    @context = @canvas.getContext("2d") 
-    @context.strokeStyle = options?.strokeStyle or "#000000"
+    @context = @canvas.getContext '2d'
+    @context.strokeStyle = options?.strokeStyle or '#000000'
     @context.lineWidth = options?.lineWidth or 1
+    @offset = options?.offset or left: 0, top: 0
     @lastMousePoint = x: 0, y: 0
     
-    @canvas.width = @canvas.parent().innerWidth()
-    @canvas.addEventListener touchstart, @onCanvasTouchStart
+    @canvas.addEventListener 'touchstart', @onCanvasTouchStart
 
   onCanvasTouchStart: (e) =>
-    document.addEventListener touchmove, @onCanvasTouchMove
-    document.addEventListener touchend, @onCanvasTouchEnd
+    document.addEventListener 'touchmove', @onCanvasTouchMove
+    document.addEventListener 'touchend', @onCanvasTouchEnd
 
     @updateMousePosition e
     @updateCanvas e
@@ -19,20 +19,15 @@ class SignatureCapture
   onCanvasTouchMove: (e) =>
     @updateCanvas e
     e.preventDefault()
-    return false
 
-  onCanvasTouchEnd: (e) =>
-    document.removeEventListener touchmove, @onCanvasTouchMove
-    document.removeEventListener touchend, @onCanvasTouchEnd
-
-    @mouseMoveHandler = null
-    @mouseUpHandler = null
+  onCanvasTouchEnd: =>
+    document.removeEventListener 'touchmove', @onCanvasTouchMove
+    document.removeEventListener 'touchend', @onCanvasTouchEnd
 
   updateMousePosition: (e) ->
     target = e.touches[0]
-    offset = @canvas.offset()
-    @lastMousePoint.x = target.pageX - offset.left
-    @lastMousePoint.y = target.pageY - offset.top
+    @lastMousePoint.x = target.pageX - @offset.left
+    @lastMousePoint.y = target.pageY - @offset.top
 
   updateCanvas: (e) ->
     @context.beginPath()
@@ -47,5 +42,5 @@ class SignatureCapture
     dataString.substring index
 
   clear: ->
-    @context.clearRect 0, 0, @canvas.width, @canvas.height
+    @context.clearRect 0, 0, parseInt(@canvas.width), parseInt(@canvas.height)
         
