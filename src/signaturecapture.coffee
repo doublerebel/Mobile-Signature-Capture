@@ -1,8 +1,8 @@
 class SignatureCapture
   constructor: (canvasID, options) ->
-    Ti.API.log 'SignatureCapture init'
+    console.log 'SignatureCapture init'
     @canvas = document.getElementById canvasID
-    Ti.API.log "canvas width: #{@canvas.width}, height: #{@canvas.height}"
+    console.log "canvas width: #{@canvas.width}, height: #{@canvas.height}"
     @context = @canvas.getContext '2d'
     @context.strokeStyle = options?.strokeStyle or '#000000'
     @context.lineWidth = options?.lineWidth or 1
@@ -12,7 +12,7 @@ class SignatureCapture
     @canvas.addEventListener 'touchstart', @onCanvasTouchStart
 
   onCanvasTouchStart: (e) =>
-    Ti.API.log 'SignatureCapture touchstart'
+    console.log 'SignatureCapture touchstart'
     document.addEventListener 'touchmove', @onCanvasTouchMove
     document.addEventListener 'touchend', @onCanvasTouchEnd
 
@@ -24,7 +24,7 @@ class SignatureCapture
     e.preventDefault()
 
   onCanvasTouchEnd: =>
-    Ti.API.log 'SignatureCapture touchend'
+    console.log 'SignatureCapture touchend'
     document.removeEventListener 'touchmove', @onCanvasTouchMove
     document.removeEventListener 'touchend', @onCanvasTouchEnd
 
