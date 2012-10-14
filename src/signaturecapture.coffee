@@ -2,8 +2,10 @@ class SignatureCapture
   constructor: (canvasID, options) ->
     console.log 'SignatureCapture init'
     @canvas = document.getElementById canvasID
-    console.log "canvas width: #{@canvas.width}, height: #{@canvas.height}"
     @context = @canvas.getContext '2d'
+    @context.canvas.width  = window.innerWidth
+    @context.canvas.height = window.innerHeight
+    console.log "canvas width: #{@canvas.width}, height: #{@canvas.height}"
     @context.strokeStyle = options?.strokeStyle or '#000000'
     @context.lineWidth = options?.lineWidth or 1
     @offset = options?.offset or left: 0, top: 0
